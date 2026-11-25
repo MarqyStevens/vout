@@ -11,6 +11,7 @@ venv/
 *.sqlite3
 data/
 exports/
+sensitive/
 .env
 .env.*
 

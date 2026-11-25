@@ -29,13 +29,13 @@ Motivácia: nahradiť ručné zdvíhanie rúk a ručné zapisovanie, vyhnúť sa
 3. **`/display` — Projektor / TV v sále (read-only):**
    - Čistý, vysoko čitateľný prehľad pre sálu a verejnosť: názov zasadnutia, aktuálny bod, počet prítomných, stav hlasovania, po uzavretí menovitý výsledok a jednoznačný verdikt (**SCHVÁLENÉ / NESCHVÁLENÉ**).
 
-### 3. Kvóra (SR legislatíva — zákon 369/1990 Zb. & Rokovací poriadok)
-Každé hlasovanie musí mať voliteľný typ potrebnej väčšiny a správny automatický výpočet výsledku:
-- Nadpolovičná väčšina prítomných poslancov (štandardné uznesenia)
-- Nadpolovičná väčšina všetkých poslancov
-- Trojpätinová (3/5) väčšina všetkých poslancov (VZN, majetkové prevody)
-- Trojpätinová (3/5) väčšina prítomných poslancov (ak vyžaduje rokovací poriadok)
-*(Pred finálnym dolaďovaním overiť detaily proti konkrétnemu Rokovaciemu poriadku MČ.)*
+### 3. Kvóra (SR legislatíva — overené v `knowledge/domain-rules.md`)
+Každé hlasovanie musí mať voliteľný typ potrebnej väčšiny a správny automatický výpočet výsledku (celočíselná aritmetika; uznášaniaschopnosť = `floor(total / 2) + 1`):
+- `majority_present` — Nadpolovičná väčšina prítomných poslancov (`floor(present / 2) + 1`): štandardné uznesenia (§ 12 ods. 7 zák. 369/1990 Zb.)
+- `majority_all` — Nadpolovičná väčšina všetkých poslancov (`floor(total / 2) + 1`): zmena návrhu programu (§ 12 ods. 5), kontrolór (§ 18a), zmluvy obcí (§ 20a, § 20b), zrušenie OVS (§ 9a ods. 7 zák. 138/1991 Zb.)
+- `three_fifths_present` — Trojpätinová (3/5) väčšina prítomných poslancov (`ceil(3 * present / 5)`): prijatie VZN (§ 12 ods. 7 zák. 369/1990 Zb.)
+- `three_fifths_all` — Trojpätinová (3/5) väčšina všetkých poslancov (`ceil(3 * total / 5)`): prelomenie veta starostu (§ 13 ods. 8 zák. 369/1990 Zb.), prevod/nájom majetku z dôvodu hodného osobitného zreteľa (§ 9a, § 9aa zák. 138/1991 Zb.), koncesie, referendum o odvolaní starostu
+*(Všetky presné paragrafy, lokálne pravidlá MČ Furča a upozornenia k platnému Rokovaciemu poriadku sú v [knowledge/domain-rules.md](knowledge/domain-rules.md).)*
 
 ### 4. Výstupy & Transparentnosť
 - **Tlačiteľný záznam (Print-ready HTML → PDF):** Zasadnutie, dátum, prezenčka, zoznam všetkých hlasovaní (č. 1, 2, 3…), presný názov bodu, typ kvóra, súhrn (ZA / PROTI / ZDRŽAL SA / NEHLASOVAL), verdikt a menovitý výpis hlasovania každého poslanca.
@@ -43,8 +43,9 @@ Každé hlasovanie musí mať voliteľný typ potrebnej väčšiny a správny au
 - **Audit log:** Nezmazateľný časový záznam každej kľúčovej udalosti (prihlásenie, potvrdenie prítomnosti, hlas, zmena hlasu, uzavretie, manual override zapisovateľa).
 
 ### 5. Hygiena repozitára & GDPR
-- Toto repo obsahuje **len zdrojový kód, testy a anonymizované demo/seed dáta**.
-- Nikdy necommitovať reálne SQLite databázy, exporty z ostrých zasadnutí, PINy ani osobné údaje poslancov (`*.db`, `data/`, `exports/`, `.env` sú v `.gitignore`).
+- Toto repo obsahuje **len zdrojový kód, testy, verejnú doménovú knižnicu (`knowledge/`) a anonymizované demo/seed dáta**.
+- Nikdy necommitovať reálne SQLite databázy, exporty z ostrých zasadnutí, PINy ani osobné údaje poslancov (`*.db`, `data/`, `exports/`, `sensitive/`, `.env` sú v `.gitignore`).
+- Súkromné/neanonymizované podklady (napr. reálne zápisnice s menami poslancov, interné šablóny z úradu) patria výhradne do `sensitive/`, nikdy nie do `knowledge/` ani do `data/`.
 
 ## Prvý krok v novom chate
 1. Navrhnúť konkrétny dátový model (SQLite schému), API/WebSocket protokol a štruktúru súborov pre MVP.
