@@ -40,6 +40,7 @@ Tento súbor eviduje všetky verejné právne predpisy, rokovacie poriadky a ofi
 ## Verejný web MČ Košice-Dargovských hrdinov (overené 25. 11. 2026)
 
 - Web MČ: https://www.kosice-dh.sk
+- Samospráva (VZN, rozpočet, záverečný účet, VO): https://www.kosice-dh.sk/mestska-cast/samosprava
 - Miestne zastupiteľstvo: https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo
 - Rokovací poriadok a plán zasadnutí: https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo/rokovaci-poriadok-a-plan-zasadnuti
 - Poslanci MiZ (13 poslancov v 3 volebných obvodoch): https://www.kosice-dh.sk/mestska-cast/poslanci
@@ -47,3 +48,10 @@ Tento súbor eviduje všetky verejné právne predpisy, rokovacie poriadky a ofi
 - Zasadnutia 2022–2026 (referenčné formáty zápisníc, uznesení a výpisov hlasovaní): https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo/zasadnutia-miz-2022-2026
   - 24. zasadnutie (16. 9. 2026) — Zápisnica, Hlasovanie, Uznesenia
   - 23. zasadnutie (17. 6. 2026) — Zápisnica, Hlasovanie, Uznesenia
+
+---
+
+## Projektové odkazy (`vout`)
+
+- GitHub repozitár: https://github.com/MarqyStevens/vout
+- Google Drive knowledge base (`vout-knowledgebase`): https://drive.google.com/drive/folders/1_yAmKaYT1banzV8uypT7PWu_g_0ajfyO

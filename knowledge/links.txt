@@ -1,0 +1,60 @@
+# vout — Zoznam všetkých referenčných linkov (pre agentov, Gemini a NotebookLM)
+# Aktualizované: 2026-11-25
+
+[ZÁKONY SR - SLOV-LEX]
+Zákon č. 369/1990 Zb. o obecnom zriadení (účinné znenie):
+https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1990/369/
+
+Zákon č. 401/1990 Zb. o meste Košice (účinné znenie):
+https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1990/401/
+
+Zákon č. 138/1991 Zb. o majetku obcí (účinné znenie):
+https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1991/138/
+
+[MČ KOŠICE - DARGOVSKÝCH HRDINOV (FURČA)]
+Oficiálny web MČ:
+https://www.kosice-dh.sk
+
+Samospráva (VZN, rozpočet, záverečný účet, VO):
+https://www.kosice-dh.sk/mestska-cast/samosprava
+
+Miestne zastupiteľstvo (hlavná stránka):
+https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo
+
+Poslanci MiZ (13 poslancov, 3 obvody):
+https://www.kosice-dh.sk/mestska-cast/poslanci
+
+Rokovací poriadok a plán zasadnutí:
+https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo/rokovaci-poriadok-a-plan-zasadnuti
+
+Rokovací poriadok MiZ (úplné znenie 2018 + dodatok 1):
+https://www.kosice-dh.sk/files/2020-03-27-075433-Rokovac___poriadok_MiZ_.pdf
+
+Rokovací poriadok - Dodatok č. 2 (2021):
+https://www.kosice-dh.sk/files/2021-12-01-155805-Rokovac___poriadok_-_Dodatok____2.pdf
+
+Rokovací poriadok - Dodatok č. 3 (2023):
+https://www.kosice-dh.sk/files/2023-07-19-112629-RK_Dodatok____3.pdf
+
+Zasadnutia MiZ 2026-2030:
+https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo/zasadnutia-miz-2026-2030
+
+Zasadnutia MiZ 2022-2026 (archív zápisníc, uznesení, hlasovaní):
+https://www.kosice-dh.sk/mestska-cast/miestne-zastupitelstvo/zasadnutia-miz-2022-2026
+
+Vzorové PDF - 24. zasadnutie MiZ (16.09.2026):
+https://www.kosice-dh.sk/files/2026-09-29-114005-z__pis_24.zasadnutie_MiZ_16.09.2026.pdf
+https://www.kosice-dh.sk/files/2026-09-29-113948-16.09.2026__hlasovanie.pdf
+https://www.kosice-dh.sk/files/2026-09-18-103238-UZNESENIA_MiZ__24_ZASADNUTIE_16_9_2026.pdf
+
+Vzorové PDF - 23. zasadnutie MiZ (17.06.2026):
+https://www.kosice-dh.sk/files/2026-06-30-134548-23.zasadnutie_MiZ_17.06.2026.pdf
+https://www.kosice-dh.sk/files/2026-06-30-134534-17.06.2026_hlasovanie_MiZ.pdf
+https://www.kosice-dh.sk/files/2026-06-26-110028-UZNESENIA_MiZ_23._ZASADNUTIE_17._6._2026.pdf
+
+[PROJEKT VOUT]
+GitHub repozitár:
+https://github.com/MarqyStevens/vout
+
+Google Drive knowledge base:
+https://drive.google.com/drive/folders/1_yAmKaYT1banzV8uypT7PWu_g_0ajfyO
