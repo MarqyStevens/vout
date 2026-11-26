@@ -1,0 +1,21 @@
+{
+  "municipality_name": "MČ Košice – Dargovských hrdinov",
+  "body_name": "Miestne zastupiteľstvo",
+  "session_title": "Zasadnutie MiZ MČ Košice – Dargovských hrdinov",
+  "source_note": "Verejný zoznam poslancov MČ Košice – Dargovských hrdinov pre volebné obdobie 2026–2030 (zdroj: kosice-dh.sk/mestska-cast/poslanci). PINy a QR tokeny sa generujú náhodne až lokálne pri vytvorení zasadnutia.",
+  "councilors": [
+    {"title": "", "first_name": "Vojtech", "last_name": "Görcsös", "district": "Obvod 1"},
+    {"title": "Mgr.", "first_name": "Stanislav", "last_name": "Valigura", "district": "Obvod 1"},
+    {"title": "Mgr.", "first_name": "Tomáš", "last_name": "Varga", "district": "Obvod 1"},
+    {"title": "JUDr., PhD.", "first_name": "Zuzana", "last_name": "Antošová", "district": "Obvod 2"},
+    {"title": "", "first_name": "Peter", "last_name": "Kaňuk", "district": "Obvod 2"},
+    {"title": "Ing.", "first_name": "Vladimír", "last_name": "Pauco", "district": "Obvod 2"},
+    {"title": "Mgr.", "first_name": "Martin", "last_name": "Tomko", "district": "Obvod 2"},
+    {"title": "PhDr.", "first_name": "František", "last_name": "Vaľko", "district": "Obvod 2"},
+    {"title": "doc. MVDr., PhD.", "first_name": "Slavomír", "last_name": "Horňák", "district": "Obvod 3"},
+    {"title": "", "first_name": "Michal", "last_name": "Kandráč", "district": "Obvod 3"},
+    {"title": "", "first_name": "Peter", "last_name": "Šafranko", "district": "Obvod 3"},
+    {"title": "Ing.", "first_name": "Vojtech", "last_name": "Špišák", "district": "Obvod 3"},
+    {"title": "Mgr.", "first_name": "Marek", "last_name": "Štefanisko", "district": "Obvod 3"}
+  ]
+}

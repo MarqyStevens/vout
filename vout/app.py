@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse, Str
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .config import ADMIN_PIN, DB_PATH
+from .config import ADMIN_PIN, DB_PATH, DEFAULT_PRESET_PATH, LOCAL_ROSTER_PATH
 from .db import Database
 from .exports import (
     format_zapisnica_sentence,
@@ -138,10 +138,22 @@ class ResolutionAssignRequest(BaseModel):
     auto_next: bool = False
 
 
-def create_app(db_path: Path | str | None = None, admin_pin: str | None = None, seed_demo: bool = True) -> FastAPI:
+def create_app(
+    db_path: Path | str | None = None,
+    admin_pin: str | None = None,
+    seed_demo: bool = True,
+    local_roster_path: Path | str | None = None,
+) -> FastAPI:
     db = Database(db_path or DB_PATH)
     if seed_demo:
-        db.seed_demo_if_empty()
+        # Priority for default local runs: explicit param -> local sensitive/councilors.json -> public preset
+        if local_roster_path is not None:
+            roster = local_roster_path
+        elif db_path is None:
+            roster = LOCAL_ROSTER_PATH if LOCAL_ROSTER_PATH.is_file() else DEFAULT_PRESET_PATH
+        else:
+            roster = None
+        db.seed_demo_if_empty(local_roster_path=roster)
     hub = RealtimeHub(db)
     expected_admin_pin = admin_pin if admin_pin is not None else ADMIN_PIN
 

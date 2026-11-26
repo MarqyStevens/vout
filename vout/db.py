@@ -170,7 +170,6 @@ def generate_pin(existing_pins: set[str], length: int = 4) -> str:
     for _ in range(500):
         pin = str(secrets.randbelow(high - low + 1) + low)
         if pin not in existing_pins:
-            existing_pins.add(pin)
             return pin
     raise RuntimeError("Failed to generate unique PIN")
 
@@ -1276,22 +1275,65 @@ class Database:
         state["my_ballot"] = my_ballot
         return state
 
-    # ---------------- Demo Seed ----------------
+    # ---------------- Demo / Local Roster Seed ----------------
 
-    def seed_demo_if_empty(self) -> dict[str, Any] | None:
-        """Create an anonymized 13-councilor demo session if DB has no sessions."""
+    def seed_demo_if_empty(self, local_roster_path: Path | str | None = None) -> dict[str, Any] | None:
+        """Initialize the first session from a local gitignored roster JSON if present,
+        otherwise create an anonymized 13-councilor demo session."""
         if self.list_sessions():
             return self.get_active_session()
 
         today = datetime.now().strftime("%Y-%m-%d")
+        roster_data: dict[str, Any] | None = None
+        if local_roster_path:
+            rp = Path(local_roster_path)
+            if rp.is_file():
+                roster_data = json.loads(rp.read_text(encoding="utf-8"))
+
+        if roster_data and roster_data.get("councilors"):
+            muni_name = roster_data.get("municipality_name", "MČ Košice – Dargovských hrdinov")
+            body_name = roster_data.get("body_name", "Miestne zastupiteľstvo")
+            sess_title = roster_data.get("session_title", "Testovacie zasadnutie MiZ")
+            roster_list = [
+                (
+                    c.get("title", ""),
+                    c["first_name"],
+                    c["last_name"],
+                    c.get("district", ""),
+                    c.get("pin") or None,
+                )
+                for c in roster_data["councilors"]
+            ]
+            total_c = len(roster_list)
+        else:
+            muni_name = "MČ Košice – Dargovských hrdinov (DEMO)"
+            body_name = "Miestne zastupiteľstvo"
+            sess_title = "Demo zasadnutie MiZ (testovacie dáta)"
+            roster_list = [
+                ("Ing.", "Martin", "Bielik", "Obvod 1", "1001"),
+                ("Mgr.", "Zuzana", "Černá", "Obvod 1", "1002"),
+                ("", "Peter", "Dvořák", "Obvod 1", "1003"),
+                ("JUDr.", "Elena", "Farkašová", "Obvod 2", "1004"),
+                ("Ing.", "Tomáš", "Gál", "Obvod 2", "1005"),
+                ("Mgr.", "Lucia", "Horváthová", "Obvod 2", "1006"),
+                ("", "Marek", "Kováč", "Obvod 2", "1007"),
+                ("MUDr.", "Jana", "Lukáčová", "Obvod 2", "1008"),
+                ("Ing.", "Róbert", "Molnár", "Obvod 3", "1009"),
+                ("Mgr.", "Katarína", "Nováková", "Obvod 3", "1010"),
+                ("", "Štefan", "Oravec", "Obvod 3", "1011"),
+                ("Ing.", "Andrea", "Poláková", "Obvod 3", "1012"),
+                ("PhDr.", "Vladimír", "Varga", "Obvod 3", "1013"),
+            ]
+            total_c = 13
+
         sess = self.create_session(
-            title="Demo zasadnutie MiZ (testovacie dáta)",
+            title=sess_title,
             session_date=today,
-            municipality_name="MČ Košice – Dargovských hrdinov (DEMO)",
-            body_name="Miestne zastupiteľstvo",
+            municipality_name=muni_name,
+            body_name=body_name,
             session_number="1",
-            chair_name="Predsedajúci (Demo)",
-            total_councilors=13,
+            chair_name="Predsedajúci",
+            total_councilors=total_c,
             default_duration_sec=15,
             reveal_live_votes=False,
             next_resolution_seq=1,
@@ -1301,29 +1343,14 @@ class Database:
         )
         sid = int(sess["id"])
 
-        demo_councilors = [
-            ("Ing.", "Martin", "Bielik", "Obvod 1", "1001"),
-            ("Mgr.", "Zuzana", "Černá", "Obvod 1", "1002"),
-            ("", "Peter", "Dvořák", "Obvod 1", "1003"),
-            ("JUDr.", "Elena", "Farkašová", "Obvod 2", "1004"),
-            ("Ing.", "Tomáš", "Gál", "Obvod 2", "1005"),
-            ("Mgr.", "Lucia", "Horváthová", "Obvod 2", "1006"),
-            ("", "Marek", "Kováč", "Obvod 2", "1007"),
-            ("MUDr.", "Jana", "Lukáčová", "Obvod 2", "1008"),
-            ("Ing.", "Róbert", "Molnár", "Obvod 3", "1009"),
-            ("Mgr.", "Katarína", "Nováková", "Obvod 3", "1010"),
-            ("", "Štefan", "Oravec", "Obvod 3", "1011"),
-            ("Ing.", "Andrea", "Poláková", "Obvod 3", "1012"),
-            ("PhDr.", "Vladimír", "Varga", "Obvod 3", "1013"),
-        ]
         created_ids = []
-        for title, fn, ln, dist, pin in demo_councilors:
+        for title, fn, ln, dist, pin in roster_list:
             c = self.add_councilor(sid, fn, ln, title=title, district=dist, pin=pin, actor_name="Systém (seed)")
             created_ids.append(int(c["id"]))
 
-        # Mark first 10 councilors present so demo is immediately quorate (10/13)
-        for cid in created_ids[:10]:
-            self.set_councilor_presence(cid, True, "admin", "Systém (seed)", "Demo prezenčka")
+        # Mark first 10 councilors present so session is immediately quorate for testing
+        for cid in created_ids[: min(10, len(created_ids))]:
+            self.set_councilor_presence(cid, True, "admin", "Systém (seed)", "Úvodná prezenčka")
 
         demo_agenda = [
             ("1", "Otvorenie a schválenie programu zasadnutia", "majority_present"),

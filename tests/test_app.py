@@ -224,3 +224,26 @@ def test_websocket_realtime_display_and_voter_sync(tmp_path: Path):
             assert b0["has_voted"] is True
             assert b0["choice"] is None
 
+
+def test_public_preset_loads_with_unique_auto_pins(tmp_path: Path):
+    app = create_app(
+        db_path=tmp_path / "preset_vout.db",
+        admin_pin="9999",
+        seed_demo=True,
+        local_roster_path=Path("presets/kosice-dh-2026-2030.json"),
+    )
+    with TestClient(app) as client:
+        st = client.get("/api/admin/state", headers=ADMIN_HEADERS).json()["state"]
+        cs = st["councilors"]
+        assert len(cs) == 13
+        assert len({c["pin"] for c in cs}) == 13
+        assert len({c["token"] for c in cs}) == 13
+        # Also verify adding a councilor with auto-generated PIN works
+        r = client.post(
+            f"/api/admin/sessions/{st['session']['id']}/councilors",
+            headers=ADMIN_HEADERS,
+            json={"first_name": "Test", "last_name": "AutoPin"},
+        )
+        assert r.status_code == 200
+        assert len(r.json()["pin"]) == 4
+

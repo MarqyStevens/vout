@@ -43,9 +43,9 @@ Každé hlasovanie musí mať voliteľný typ potrebnej väčšiny a správny au
 - **Audit log:** Nezmazateľný časový záznam každej kľúčovej udalosti (prihlásenie, potvrdenie prítomnosti, hlas, zmena hlasu, uzavretie, manual override zapisovateľa).
 
 ### 5. Hygiena repozitára & GDPR
-- Toto repo obsahuje **len zdrojový kód, testy, verejnú doménovú knižnicu (`knowledge/`) a anonymizované demo/seed dáta**.
-- Nikdy necommitovať reálne SQLite databázy, exporty z ostrých zasadnutí, PINy ani osobné údaje poslancov (`*.db`, `data/`, `exports/`, `sensitive/`, `.env` sú v `.gitignore`).
-- Súkromné/neanonymizované podklady (napr. reálne zápisnice s menami poslancov, interné šablóny z úradu) patria výhradne do `sensitive/`, nikdy nie do `knowledge/` ani do `data/`.
+- Toto repo obsahuje **len zdrojový kód, testy, verejnú doménovú knižnicu (`knowledge/`), verejné zoznamy volených poslancov bez PINov a kontaktov (`presets/`) a anonymizované demo/seed dáta**.
+- Nikdy necommitovať reálne SQLite databázy, exporty z ostrých zasadnutí, PINy/QR tokeny ani súkromné kontaktné/osobné údaje (`*.db`, `data/`, `exports/`, `sensitive/`, `.env` sú v `.gitignore`).
+- Súkromné a interné podklady (napr. neanonymizované kontakty, interné úradné dokumenty, lokálne PINy) patria výhradne do `sensitive/`, nikdy nie do `knowledge/` ani do `data/`.
 
 ## Prvý krok v novom chate
 1. Navrhnúť konkrétny dátový model (SQLite schému), API/WebSocket protokol a štruktúru súborov pre MVP.
