@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>vout – Hlasovanie poslanca</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <main class="vote-page">
+    <!-- Login View -->
+    <section id="login-view" class="card" style="margin-top: 24px;">
+      <h1 style="margin:0 0 6px; font-size:1.5rem;">Prihlásenie poslanca</h1>
+      <p class="muted" style="margin:0 0 16px; font-size:0.95rem;">
+        Naskenujte svoj osobný QR kód fotoaparátom alebo zadajte 4-miestny PIN z prístupovej karty.
+      </p>
+      <form id="pin-form">
+        <input id="pin-input" class="pin-input" type="tel" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="••••" required>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:12px;">Prihlásiť sa</button>
+      </form>
+      <p id="login-error" class="hidden" style="color:#dc2626; font-weight:700; margin-top:10px; text-align:center;"></p>
+    </section>
+
+    <!-- Main Voter View -->
+    <section id="voter-view" class="hidden" style="display:flex; flex-direction:column; gap:12px;">
+      <header class="card" style="padding:12px 14px;">
+        <div class="vote-topbar">
+          <div>
+            <div id="v-org" class="muted" style="font-size:0.78rem; font-weight:700; text-transform:uppercase;"></div>
+            <div id="v-name" style="font-size:1.15rem; font-weight:900;"></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span id="v-conn-dot" class="conn-dot" title="Stav pripojenia"></span>
+            <button id="btn-logout" class="btn btn-outline btn-sm">Odhlásiť</button>
+          </div>
+        </div>
+        <div id="v-session" class="muted" style="font-size:0.86rem; margin-top:4px;"></div>
+      </header>
+
+      <!-- Virtual Presence Card ("Kartička") -->
+      <section id="card-presence" class="card card-presence out-hall">
+        <div class="presence-row">
+          <div>
+            <div style="font-size:0.8rem; font-weight:800; text-transform:uppercase; color:#475569;">Hlasovacia kartička</div>
+            <div id="v-presence-label" style="font-size:1.15rem; font-weight:900;">MIMO SÁLY</div>
+          </div>
+          <span id="v-quorum-badge" class="badge badge-gray">0 / 0</span>
+        </div>
+        <button id="btn-toggle-presence" class="btn btn-success presence-btn">Zasunúť kartičku – Som v sále</button>
+        <div id="v-presence-hint" class="muted" style="font-size:0.82rem;">
+          Pri odchode zo sály kartičku vytiahnite, aby ste nezvyšovali kvórum.
+        </div>
+      </section>
+
+      <!-- Active Voting Area -->
+      <section id="v-vote-area" class="card"></section>
+
+      <!-- Last Closed Vote Result -->
+      <section id="v-last-result" class="card hidden"></section>
+    </section>
+  </main>
+
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/vote.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vout – Zapisovateľ (/admin)</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Admin Login -->
+  <div id="admin-login-wrap" style="max-width:400px; margin:70px auto; padding:16px;">
+    <div class="card">
+      <h1 style="margin:0 0 6px; font-size:1.4rem;">Prihlásenie zapisovateľa</h1>
+      <p class="muted" style="margin:0 0 14px; font-size:0.9rem;">Zadajte administrátorský PIN (predvolený: <code>1234</code>).</p>
+      <form id="admin-login-form">
+        <input id="admin-pin-input" class="pin-input" type="password" inputmode="numeric" placeholder="••••" required>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:12px;">Vstúpiť do ovládania</button>
+      </form>
+      <p id="admin-login-err" class="hidden" style="color:#dc2626; font-weight:700; margin-top:10px; text-align:center;"></p>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="admin-app" class="admin-shell hidden">
+    <header class="admin-header">
+      <div>
+        <h1 id="a-session-title">vout – Zapisovateľ</h1>
+        <div id="a-session-sub" style="font-size:0.84rem; color:#94a3b8; margin-top:2px;"></div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+        <span id="a-att-badge" class="badge badge-gray">0 / 0</span>
+        <select id="a-session-select" title="Vybrať zasadnutie"></select>
+        <a href="/display" target="_blank" class="btn btn-outline btn-sm" style="background:#1e293b; color:#fff; border-color:#334155;">Otvoriť /display ↗</a>
+        <a id="a-qr-link" href="#" target="_blank" class="btn btn-outline btn-sm" style="background:#1e293b; color:#fff; border-color:#334155;">QR karty ↗</a>
+      </div>
+    </header>
+
+    <div class="admin-grid">
+      <!-- LEFT COLUMN: Live Voting Console -->
+      <section class="card" id="a-vote-console">
+        <h2 style="margin:0 0 10px; font-size:1.1rem;">Ovládanie hlasovania</h2>
+        <div id="a-open-vote-panel" class="hidden"></div>
+
+        <form id="a-start-vote-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Číslo bodu</label>
+              <input id="vf-item-num" class="form-control" type="text" placeholder="napr. 3 alebo 6.1" value="1">
+            </div>
+            <div class="form-group">
+              <label>Bod z programu (voliteľné)</label>
+              <select id="vf-agenda-select" class="form-control"></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Názov hlasovania / návrhu</label>
+            <input id="vf-title" class="form-control" type="text" placeholder="napr. Schválenie rozpočtu / Pozmeňujúci návrh" required>
+          </div>
+          <div class="form-group">
+            <label>Požadované kvórum (SR zákon)</label>
+            <select id="vf-quorum" class="form-control">
+              <option value="majority_present">Nadpolovičná väčšina prítomných (štandardné uznesenie)</option>
+              <option value="majority_all">Nadpolovičná väčšina všetkých (zmena programu, kontrolór)</option>
+              <option value="three_fifths_present">Trojpätinová 3/5 väčšina prítomných (VZN)</option>
+              <option value="three_fifths_all">Trojpätinová 3/5 väčšina všetkých (veto, osobitný zreteľ)</option>
+            </select>
+            <div id="vf-quorum-hint" class="muted" style="font-size:0.8rem;"></div>
+          </div>
+          <div class="form-group">
+            <label>Odpočet hlasovania</label>
+            <div class="chip-group" id="vf-dur-chips">
+              <button type="button" class="chip" data-dur="10">10 s</button>
+              <button type="button" class="chip active" data-dur="15">15 s</button>
+              <button type="button" class="chip" data-dur="20">20 s</button>
+              <button type="button" class="chip" data-dur="30">30 s</button>
+              <button type="button" class="chip" data-dur="0">Bez limitu</button>
+            </div>
+          </div>
+          <input type="hidden" id="vf-repeat-from" value="">
+          <button type="submit" id="btn-open-vote" class="btn btn-success btn-lg" style="width:100%; margin-top:6px;">
+            ▶ Spustiť hlasovanie
+          </button>
+        </form>
+
+        <hr style="border:none; border-top:1px solid #e2e8f0; margin:16px 0;">
+        <div id="a-last-vote-box"></div>
+      </section>
+
+      <!-- RIGHT COLUMN: Tabs -->
+      <section class="card">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="agenda">Program</button>
+          <button class="tab-btn" data-tab="councilors">Poslanci &amp; Prezenčka</button>
+          <button class="tab-btn" data-tab="history">Hlasovania</button>
+          <button class="tab-btn" data-tab="exports">Exporty &amp; Zasadnutie</button>
+          <button class="tab-btn" data-tab="audit">Audit log</button>
+        </div>
+
+        <div id="tab-agenda" class="tab-panel"></div>
+        <div id="tab-councilors" class="tab-panel hidden"></div>
+        <div id="tab-history" class="tab-panel hidden"></div>
+        <div id="tab-exports" class="tab-panel hidden"></div>
+        <div id="tab-audit" class="tab-panel hidden"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Override Modal -->
+  <div id="override-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <h3 style="margin:0 0 8px;">Manuálny zásah zapisovateľa (Override)</h3>
+      <p id="ov-desc" class="muted" style="margin:0 0 12px; font-size:0.9rem;"></p>
+      <form id="override-form">
+        <input type="hidden" id="ov-vote-id">
+        <input type="hidden" id="ov-councilor-id">
+        <div class="form-group">
+          <label>Nový stav hlasu</label>
+          <select id="ov-choice" class="form-control">
+            <option value="for">ZA</option>
+            <option value="against">PROTI</option>
+            <option value="abstain">ZDRŽAL SA</option>
+            <option value="not_voted">NEHLASOVAL (prítomný)</option>
+            <option value="absent">NEPRÍTOMNÝ (mimo sály)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Dôvod zásahu (povinné — zapisuje sa do audit logu)</label>
+          <input id="ov-reason" class="form-control" type="text" placeholder="napr. Výpadok telefónu – verejný hlas zdvihnutím ruky" required>
+        </div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px;">
+          <button type="button" id="ov-cancel" class="btn btn-outline">Zrušiť</button>
+          <button type="submit" class="btn btn-warning">Uložiť zásah a prepočítať</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>
